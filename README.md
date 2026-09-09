@@ -124,14 +124,16 @@ On a nightly cron and on **Run workflow** it:
 2. Writes filename, URL, and MD5 into `libs/windows/media_kit_libs_windows_video/windows/CMakeLists.txt`
 3. Commits `Update DLL hash` if the pin changed
 
-`github-actions[bot]` / `GITHUB_TOKEN` **cannot push** to this repo. The workflow checks out with secret **`GH_PAT`**.
+The workflow checks out with **`GH_PAT`** when that secret exists, otherwise **`GITHUB_TOKEN`** (`contents: write`). Nightly hash bumps have already landed as `github-actions[bot]` commits, so a PAT is optional unless a future ruleset blocks the Actions bot.
+
+To use a PAT instead:
 
 1. Classic PAT, **`repo`** scope, a user who can push to `watchmaia/media-kit`
 2. Repo → Settings → Secrets and variables → Actions → `GH_PAT`
 3. Settings → Actions → allow workflows
 4. Run **Update Windows DLL** on `main`
 
-Editing `.github/workflows/*.yml` and pushing it requires the PAT **`workflow`** scope (`refusing to allow a Personal Access Token to create or update workflow` otherwise). The GitHub web editor uses your session and does not need that scope.
+Editing `.github/workflows/*.yml` and pushing it with a PAT requires the **`workflow`** scope (`refusing to allow a Personal Access Token to create or update workflow` otherwise). The GitHub web editor uses your session and does not need that scope.
 
 ## Branches
 
